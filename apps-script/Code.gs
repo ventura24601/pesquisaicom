@@ -4,7 +4,8 @@
  *
  * Instalação (detalhes no README):
  * 1. Crie uma Planilha Google > Extensões > Apps Script > cole este arquivo.
- * 2. Configurações do projeto > Propriedades do script: DASHBOARD_KEY = <uma senha longa>.
+ * 2. Configurações do projeto > Propriedades do script: DASHBOARD_KEY = <senha do painel>.
+ *    A senha fica só aqui, nunca no repositório (ele é público).
  * 3. Implantar > Nova implantação > App da Web: executar como "Eu", acesso "Qualquer pessoa".
  * 4. Cole a URL /exec em config.js (APPS_SCRIPT_URL).
  */
@@ -105,9 +106,20 @@ function aba_() {
   return sh;
 }
 
+// Depois de 10 senhas erradas em 15 minutos o painel fica bloqueado por 15 minutos,
+// para que ninguém descubra a senha tentando todas as combinações.
+const MAX_ERROS = 10;
+const JANELA_S = 15 * 60;
+
 function chaveValida_(key) {
   const certa = PropertiesService.getScriptProperties().getProperty('DASHBOARD_KEY');
-  return !!certa && key === certa;
+  if (!certa) return false;
+  const cache = CacheService.getScriptCache();
+  const erros = Number(cache.get('erros_senha') || 0);
+  if (erros >= MAX_ERROS) return false;
+  if (key === certa) return true;
+  cache.put('erros_senha', String(erros + 1), JANELA_S);
+  return false;
 }
 
 function json_(obj) {
@@ -118,8 +130,6 @@ function json_(obj) {
 function configurar() {
   aba_();
   if (!PropertiesService.getScriptProperties().getProperty('DASHBOARD_KEY')) {
-    const key = Utilities.getUuid().replace(/-/g, '');
-    PropertiesService.getScriptProperties().setProperty('DASHBOARD_KEY', key);
-    Logger.log('DASHBOARD_KEY criada: ' + key + ' (guarde: é a senha do dashboard)');
+    Logger.log('Falta a senha do painel: Configurações do projeto > Propriedades do script > DASHBOARD_KEY.');
   }
 }

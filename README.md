@@ -33,15 +33,16 @@ dashboard.html ──GET + chave─────────┘
 ### 1. Planilha + Apps Script
 1. Crie uma Planilha Google (ex.: *Pesquisa ICOM — respostas*).
 2. **Extensões → Apps Script**, apague o conteúdo e cole `apps-script/Code.gs`. Salve.
-3. No editor, selecione a função `configurar` e clique em **Executar**. Autorize. Ela cria a aba `Respostas` e gera a `DASHBOARD_KEY` — copie a chave do **Registro de execução** (ou defina a sua em *Configurações do projeto → Propriedades do script*).
-4. **Implantar → Nova implantação → App da Web**: *Executar como*: **Eu**; *Quem pode acessar*: **Qualquer pessoa**. Copie a URL que termina em `/exec`.
+3. Em **Configurações do projeto (engrenagem) → Propriedades do script**, adicione `DASHBOARD_KEY` com a senha do painel. A senha fica só no Apps Script, nunca neste repositório (ele é público). Depois de 10 senhas erradas em 15 minutos o painel bloqueia por 15 minutos.
+4. No editor, selecione a função `configurar` e clique em **Executar**. Autorize. Ela cria a aba `Respostas`.
+5. **Implantar → Nova implantação → App da Web**: *Executar como*: **Eu**; *Quem pode acessar*: **Qualquer pessoa**. Copie a URL que termina em `/exec`.
 
 > Ao alterar o `Code.gs`, use **Implantar → Gerenciar implantações → Editar → Nova versão** para manter a mesma URL.
 
-### 2. Site (GitHub Pages)
+### 2. Site (Netlify)
 1. Em `config.js`, cole a URL em `APPS_SCRIPT_URL` e faça commit.
-2. No GitHub: **Settings → Pages → Deploy from a branch → `main` / root**.
-3. O formulário fica em `https://ventura24601.github.io/pesquisaicom/` e o painel em `.../dashboard.html` (pede a chave no primeiro acesso).
+2. Publique com `netlify deploy --prod` (o projeto já está vinculado a `pesquisaicom`).
+3. O formulário fica em `https://pesquisaicom.netlify.app/` e o painel em `.../dashboard.html` (pede a senha no primeiro acesso).
 
 ### 3. Antes do evento
 - Gere o QR code apontando para a URL do formulário. Para separar eventos, use `?evento=nome-do-evento`.

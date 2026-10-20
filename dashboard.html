@@ -37,9 +37,9 @@
   <div id="chave" class="chave" hidden>
     <form id="formChave">
       <h2>Acesso ao painel</h2>
-      <p>As respostas têm nome e WhatsApp das clínicas. Digite a chave do painel (DASHBOARD_KEY do Apps Script).</p>
-      <input type="password" id="inChave" autocomplete="current-password" placeholder="Chave do painel" required>
-      <p class="erro" id="erroChave" hidden>Chave inválida.</p>
+      <p>As respostas têm nome e WhatsApp das clínicas. Digite a senha do painel.</p>
+      <input type="password" id="inChave" autocomplete="current-password" placeholder="Senha" inputmode="numeric" required>
+      <p class="erro" id="erroChave" hidden>Senha inválida (ou painel bloqueado por 15 min após muitas tentativas)./p>
       <button class="btn btn-primary" type="submit">Entrar</button>
     </form>
   </div>
