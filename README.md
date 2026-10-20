@@ -5,7 +5,7 @@ Formulário de 3 minutos para o encontro com clientes e um painel para acompanha
 | Página | Para quê |
 |---|---|
 | `index.html` | Formulário no celular (QR code nas mesas). Bloco comum → Caminho A (clientes atuais) ou B (ex-clientes) → pergunta final F1. |
-| `index.html?modo=entrevista` | Mesmo formulário para os tablets dos entrevistadores; pede o nome de quem entrevista e lembra as regras (não entrevistar a própria carteira, não vender de volta para ex-cliente). |
+| `index.html?modo=entrevista` | Mesmo formulário para os tablets dos entrevistadores; marca a resposta como entrevista e troca o botão final por "Nova entrevista". |
 | `dashboard.html` | Painel: fila de contato vermelho/amarelo com responsável e status, fila de ajuste rápido (A3 × A4 → ação do plano), saúde dos produtos, A5/A6/A7, motivos de saída, F1 atual × ex-cliente, textos livres, exportação CSV. |
 
 Sem nenhuma configuração o painel abre em **modo demonstração** com dados fictícios, e o formulário guarda as respostas só no aparelho.
@@ -45,7 +45,7 @@ dashboard.html ──GET + chave─────────┘
 
 ### 3. Antes do evento
 - Gere o QR code apontando para a URL do formulário. Para separar eventos, use `?evento=nome-do-evento`.
-- Nos tablets, abra `...?modo=entrevista` (o nome do entrevistador fica salvo no aparelho).
+- Nos tablets, abra `...?modo=entrevista`.
 - Faça uma resposta de teste e confira se ela aparece no painel e na planilha; depois apague a linha de teste da planilha.
 - Peça aos consultores a lista de ex-clientes confirmados (eles são abordados pessoalmente, nunca só por QR).
 

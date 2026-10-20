@@ -15,7 +15,7 @@
   let erros = {};
 
   function novaResposta() {
-    return { entrevistador: ler("icom_entrevistador") || "" };
+    return {};
   }
 
   // ---------- definição das etapas ----------
@@ -155,17 +155,10 @@
   }
 
   function renderInicio() {
-    const entrevista =
-      MODO === "entrevista"
-        ? `<div class="q"><p class="titulo">Entrevistador(a)</p>
-             <p class="ajuda">Lembre: não entreviste a sua própria carteira. Com ex-cliente, escute e registre, sem tentar vender de volta.</p>
-             <input type="text" data-campo="entrevistador" value="${esc(r.entrevistador || "")}" placeholder="Seu nome"></div>`
-        : "";
     return `
       <h1>Queremos saber o que precisamos corrigir primeiro.</h1>
       <p class="lead">Leva 3 minutos e você pode ser bem direto.</p>
-      <div class="aviso">São perguntas rápidas sobre as ferramentas, os resultados e o atendimento. Todo mundo recebe o mesmo brinde ao final, seja qual for a resposta.</div>
-      ${entrevista}`;
+      <div class="aviso">São perguntas rápidas sobre as ferramentas, os resultados e o atendimento. Todo mundo recebe o mesmo brinde ao final, seja qual for a resposta.</div>`;
   }
 
   function renderPergunta(q) {
@@ -228,7 +221,6 @@
     const el = ev.target;
     if (el.dataset.campo) {
       r[el.dataset.campo] = el.value;
-      if (el.dataset.campo === "entrevistador") gravar("icom_entrevistador", el.value);
     }
   });
 
@@ -307,7 +299,6 @@
       criado_em: new Date().toISOString(),
       evento: EVENTO,
       modo: MODO,
-      entrevistador: MODO === "entrevista" ? (r.entrevistador || "").trim() : "",
       clinica: (r.clinica || "").trim(),
       whatsapp: (r.whatsapp || "").trim(),
       funcao: r.funcao || "",
