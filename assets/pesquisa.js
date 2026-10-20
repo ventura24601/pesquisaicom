@@ -67,7 +67,7 @@
     ],
   };
 
-  // Campos de lista são gravados na planilha separados por " | ".
+  // Campos de lista são gravados no banco separados por " | ".
   const SEP = " | ";
   const lista = (v) => (Array.isArray(v) ? v : String(v || "").split(SEP).map((s) => s.trim()).filter(Boolean));
 
@@ -103,7 +103,7 @@
     return { cor: "vermelho", motivo, dono_prazo: black ? "Contato em 24 h · pela diretoria (Black)" : "Contato em 24 h" };
   }
 
-  // Ordem das colunas na planilha (o Apps Script cria o cabeçalho com elas).
+  // Colunas da tabela respostas (mesma ordem do CSV exportado).
   const COLUNAS = [
     "id", "criado_em", "evento", "modo", "entrevistador",
     "clinica", "whatsapp", "funcao", "funcao_outra", "situacao", "caminho", "produtos", "produto_outro",
@@ -112,5 +112,19 @@
     "f1", "cor", "motivo_cor",
   ];
 
-  window.ICOM = { PRODUTOS, PROBLEMAS, NENHUM, P, SEP, lista, caminho, classificar, COLUNAS };
+  // Chama uma função do Supabase (POST /rest/v1/rpc/<fn>) e devolve o JSON.
+  async function rpc(fn, body) {
+    const cfg = window.ICOM_CONFIG || {};
+    const resp = await fetch(`${cfg.SUPABASE_URL}/rest/v1/rpc/${fn}`, {
+      method: "POST",
+      headers: { apikey: cfg.SUPABASE_KEY, "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+    const json = await resp.json();
+    if (!resp.ok) throw new Error(json.message || `HTTP ${resp.status}`);
+    return json;
+  }
+  const configurado = () => !!((window.ICOM_CONFIG || {}).SUPABASE_URL && (window.ICOM_CONFIG || {}).SUPABASE_KEY);
+
+  window.ICOM = { PRODUTOS, PROBLEMAS, NENHUM, P, SEP, lista, caminho, classificar, COLUNAS, rpc, configurado };
 })();

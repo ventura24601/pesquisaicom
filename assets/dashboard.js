@@ -1,8 +1,8 @@
 (function () {
-  const { PRODUTOS, PROBLEMAS, NENHUM, P, lista, classificar, COLUNAS } = window.ICOM;
+  const { PRODUTOS, PROBLEMAS, NENHUM, P, lista, classificar, COLUNAS, rpc, configurado } = window.ICOM;
   const CFG = window.ICOM_CONFIG || {};
   const params = new URLSearchParams(location.search);
-  const DEMO = !CFG.APPS_SCRIPT_URL || params.get("demo") === "1";
+  const DEMO = !configurado() || params.get("demo") === "1";
   const KEY_STORE = "icom_dash_key";
   const LOCAL_STORE = "icom_dash_acompanhamento"; // responsável/status em modo demo
   const STATUS = ["A contatar", "Em contato", "Resolvido", "Sem retorno"];
@@ -35,10 +35,9 @@
     if (!key) return pedirChave();
     try {
       $("status").textContent = "Atualizando…";
-      const resp = await fetch(`${CFG.APPS_SCRIPT_URL}?key=${encodeURIComponent(key)}`);
-      const json = await resp.json();
+      const json = await rpc("listar_respostas", { senha: key });
       if (!json.ok) {
-        if (/chave/.test(json.erro || "")) { remover(KEY_STORE); return pedirChave(true); }
+        if (/senha/.test(json.erro || "")) { remover(KEY_STORE); return pedirChave(true); }
         throw new Error(json.erro);
       }
       todas = json.respostas;
@@ -192,15 +191,10 @@
       return gravar(LOCAL_STORE, JSON.stringify(loc));
     }
     try {
-      const resp = await fetch(CFG.APPS_SCRIPT_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ acao: "atribuir", key: ler(KEY_STORE), id: r.id, [el.dataset.campo]: el.value }),
-      });
-      const json = await resp.json();
+      const json = await rpc("atribuir", { senha: ler(KEY_STORE), resposta_id: r.id, [el.dataset.campo]: el.value });
       if (!json.ok) throw new Error(json.erro);
     } catch (e) {
-      alert("Não foi possível salvar na planilha: " + e.message);
+      alert("Não foi possível salvar: " + e.message);
     }
   });
 

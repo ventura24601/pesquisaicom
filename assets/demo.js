@@ -1,5 +1,5 @@
-// Respostas fictícias para ver o dashboard antes de configurar o Apps Script.
-// Só são usadas quando APPS_SCRIPT_URL está vazio ou com ?demo=1 na URL.
+// Respostas fictícias para ver o dashboard antes de configurar o Supabase.
+// Só são usadas quando o Supabase não está configurado ou com ?demo=1 na URL.
 (function () {
   const { PRODUTOS, PROBLEMAS, NENHUM, P, SEP, classificar, COLUNAS } = window.ICOM;
   let s = 42;

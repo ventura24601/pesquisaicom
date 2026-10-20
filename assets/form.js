@@ -1,5 +1,5 @@
 (function () {
-  const { PRODUTOS, PROBLEMAS, NENHUM, P, SEP, caminho, classificar, COLUNAS } = window.ICOM;
+  const { PRODUTOS, PROBLEMAS, NENHUM, P, SEP, caminho, classificar, COLUNAS, rpc, configurado } = window.ICOM;
   const CFG = window.ICOM_CONFIG || {};
   const params = new URLSearchParams(location.search);
   const MODO = params.get("modo") === "entrevista" ? "entrevista" : "qr";
@@ -295,7 +295,7 @@
     const reg = {};
     COLUNAS.forEach((c) => (reg[c] = ""));
     Object.assign(reg, {
-      id: (crypto.randomUUID && crypto.randomUUID()) || String(Date.now()) + Math.random().toString(16).slice(2),
+      id: uuid(),
       criado_em: new Date().toISOString(),
       evento: EVENTO,
       modo: MODO,
@@ -357,19 +357,14 @@
 
   let enviando = false;
   async function descarregarFila() {
-    const url = CFG.APPS_SCRIPT_URL;
+    const ok = configurado();
     let fila = lerFila();
-    atualizarAvisoFila(fila.length, !url);
-    if (!url || enviando || !fila.length) return;
+    atualizarAvisoFila(fila.length, !ok);
+    if (!ok || enviando || !fila.length) return;
     enviando = true;
     try {
       for (const reg of fila.slice()) {
-        const resp = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ acao: "responder", resposta: reg }),
-        });
-        const json = await resp.json();
+        const json = await rpc("responder", { resposta: reg });
         if (!json.ok) throw new Error(json.erro || "falha");
         fila = lerFila().filter((x) => x.id !== reg.id);
         gravar(FILA_KEY, JSON.stringify(fila));
@@ -386,8 +381,17 @@
     if (!n) { filaEl.hidden = true; return; }
     filaEl.hidden = false;
     filaEl.textContent = semUrl
-      ? `${n} resposta(s) guardada(s) só neste aparelho — configure o APPS_SCRIPT_URL`
+      ? `${n} resposta(s) guardada(s) só neste aparelho — configure o Supabase em config.js`
       : `${n} resposta(s) aguardando envio — sem conexão, tentando de novo`;
+  }
+
+  function uuid() {
+    if (crypto.randomUUID) return crypto.randomUUID();
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 0x0f) | 0x40;
+    b[8] = (b[8] & 0x3f) | 0x80;
+    const h = [...b].map((x) => x.toString(16).padStart(2, "0")).join("");
+    return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`;
   }
 
   function lerFila() {

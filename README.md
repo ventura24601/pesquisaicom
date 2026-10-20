@@ -8,19 +8,19 @@ Formulário de 3 minutos para o encontro com clientes e um painel para acompanha
 | `index.html?modo=entrevista` | Mesmo formulário para os tablets dos entrevistadores; marca a resposta como entrevista e troca o botão final por "Nova entrevista". |
 | `dashboard.html` | Painel: fila de contato vermelho/amarelo com responsável e status, fila de ajuste rápido (A3 × A4 → ação do plano), saúde dos produtos, A5/A6/A7, motivos de saída, F1 atual × ex-cliente, textos livres, exportação CSV. |
 
-Sem nenhuma configuração o painel abre em **modo demonstração** com dados fictícios, e o formulário guarda as respostas só no aparelho.
 
 ## Como funciona
 
 ```
-Celular / tablet ──POST──▶ Google Apps Script ──▶ Planilha Google (aba "Respostas")
-                                     ▲
-dashboard.html ──GET + chave─────────┘
+Celular / tablet ──rpc responder()──────────▶ Supabase (tabela respostas)
+dashboard.html ──rpc listar_respostas(senha)──┘   atribuir(senha, ...)
 ```
 
-- **Coleta**: cada resposta recebe um `id` e vai para uma fila no aparelho antes de ser enviada. Se a internet do evento cair, o formulário continua funcionando e reenvia sozinho (a cada 30 s e quando a conexão volta). O Apps Script ignora reenvios do mesmo `id`.
-- **Privacidade**: nome da clínica e WhatsApp são opcionais, e o formulário avisa que preenchê-los tira o anonimato. O painel só lê os dados com a chave `DASHBOARD_KEY`, que não fica no repositório.
-- **Criticidade**: a regra da diretriz está em `assets/pesquisa.js` (`classificar`). O painel recalcula a cor de toda resposta com a regra atual; a coluna `cor` da planilha é só para quem lê a planilha direto.
+- **Banco**: projeto Supabase `pesquisaicom` (São Paulo). O schema está em `supabase/migrations/`.
+- **Segurança**: o site usa só a chave publicável do Supabase (`config.js`). As tabelas têm RLS ligado e nenhum acesso direto; o navegador só chama três funções. `responder` grava uma resposta (qualquer pessoa); `listar_respostas` e `atribuir` exigem a senha do painel, guardada no banco como hash bcrypt. Depois de 10 senhas erradas em 15 minutos, o painel bloqueia por 15 minutos.
+- **Coleta**: cada resposta recebe um `id` e vai para uma fila no aparelho antes de ser enviada. Se a internet do evento cair, o formulário continua funcionando e reenvia sozinho (a cada 30 s e quando a conexão volta). Reenvios do mesmo `id` são ignorados.
+- **Privacidade**: nome da clínica e WhatsApp são opcionais, e o formulário avisa que preenchê-los tira o anonimato.
+- **Criticidade**: a regra da diretriz está em `assets/pesquisa.js` (`classificar`). O painel recalcula a cor de toda resposta com a regra atual.
 
 | Cor | Quando | Prazo |
 |---|---|---|
@@ -28,30 +28,27 @@ dashboard.html ──GET + chave─────────┘
 | Amarelo | A1 de 7 a 8 com algum problema em A3; ou ex-cliente com B7 = Sim e saída há menos de 12 meses | 72 h |
 | Verde | Demais | Só contagem |
 
-## Colocar no ar (≈10 minutos)
+## No ar
 
-### 1. Planilha + Apps Script
-1. Crie uma Planilha Google (ex.: *Pesquisa ICOM — respostas*).
-2. **Extensões → Apps Script**, apague o conteúdo e cole `apps-script/Code.gs`. Salve.
-3. Em **Configurações do projeto (engrenagem) → Propriedades do script**, adicione `DASHBOARD_KEY` com a senha do painel. A senha fica só no Apps Script, nunca neste repositório (ele é público). Depois de 10 senhas erradas em 15 minutos o painel bloqueia por 15 minutos.
-4. No editor, selecione a função `configurar` e clique em **Executar**. Autorize. Ela cria a aba `Respostas`.
-5. **Implantar → Nova implantação → App da Web**: *Executar como*: **Eu**; *Quem pode acessar*: **Qualquer pessoa**. Copie a URL que termina em `/exec`.
+- Formulário: https://pesquisaicom.netlify.app (`?modo=entrevista` nos tablets, `?evento=nome` para separar eventos)
+- Painel: https://pesquisaicom.netlify.app/dashboard.html (`?demo=1` mostra dados fictícios)
+- Publicar mudanças: `netlify deploy --prod --dir .`
 
-> Ao alterar o `Code.gs`, use **Implantar → Gerenciar implantações → Editar → Nova versão** para manter a mesma URL.
+**Trocar a senha do painel** — no SQL Editor do Supabase:
 
-### 2. Site (Netlify)
-1. Em `config.js`, cole a URL em `APPS_SCRIPT_URL` e faça commit.
-2. Publique com `netlify deploy --prod` (o projeto já está vinculado a `pesquisaicom`).
-3. O formulário fica em `https://pesquisaicom.netlify.app/` e o painel em `.../dashboard.html` (pede a senha no primeiro acesso).
+```sql
+select public.definir_senha('nova-senha');
+```
 
-### 3. Antes do evento
-- Gere o QR code apontando para a URL do formulário. Para separar eventos, use `?evento=nome-do-evento`.
-- Nos tablets, abra `...?modo=entrevista`.
-- Faça uma resposta de teste e confira se ela aparece no painel e na planilha; depois apague a linha de teste da planilha.
+**Ver as respostas em planilha** — botão *Exportar CSV* no painel, ou *Table Editor → respostas* no Supabase.
+
+### Antes do evento
+- Gere o QR code apontando para a URL do formulário.
+- Faça uma resposta de teste com `?evento=teste`, confira no painel e apague depois (`delete from respostas where evento = 'teste';`).
 - Peça aos consultores a lista de ex-clientes confirmados (eles são abordados pessoalmente, nunca só por QR).
 
 ### No fim do dia
-Abra o painel → **Fila de contato → Vermelhos**, preencha *Responsável* em cada linha (grava na planilha, colunas `responsavel` e `status_contato`) e use a **Fila de ajuste rápido**: o problema mais marcado por quem tem problema toda semana é o primeiro da fila.
+Abra o painel → **Fila de contato → Vermelhos**, preencha *Responsável* em cada linha e use a **Fila de ajuste rápido**: o problema mais marcado por quem tem problema toda semana é o primeiro da fila.
 
 ## Rodar localmente
 
@@ -66,12 +63,12 @@ Abra `http://localhost:3000/dashboard.html` (demonstração) ou `http://localhos
 ```
 index.html            formulário
 dashboard.html        painel
-config.js             URL do Apps Script e evento padrão
+config.js             URL e chave publicável do Supabase, evento padrão
 assets/pesquisa.js    perguntas, opções, mapa problema → ação e regra de criticidade (fonte única)
 assets/form.js        lógica do formulário e fila offline
 assets/dashboard.js   painel
 assets/demo.js        dados fictícios do modo demonstração
-apps-script/Code.gs   backend (Planilha Google)
+supabase/migrations/  tabela, funções e regras de acesso
 ```
 
 Para mudar uma opção de resposta, edite `assets/pesquisa.js`: formulário e painel acompanham. Respostas antigas com o texto anterior deixam de ser contadas na opção nova.
