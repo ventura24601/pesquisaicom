@@ -3,7 +3,9 @@
   background: var(--page);
   padding: 14px 16px 0;
 }
-.marca { font-weight: 800; letter-spacing: 0.02em; max-width: 640px; margin: 0 auto; }
+.linha-topo { max-width: 640px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.marca { font-weight: 800; letter-spacing: 0.02em; }
+.btn-dash { min-height: 36px; padding: 6px 14px; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; }
 .marca span { font-weight: 500; color: var(--ink-2); }
 .progresso { height: 4px; background: var(--grid); border-radius: 4px; max-width: 640px; margin: 10px auto 0; overflow: hidden; }
 #barra { height: 100%; width: 0; background: var(--accent); border-radius: 4px; transition: width 0.25s; }
