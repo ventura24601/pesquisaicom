@@ -1,0 +1,96 @@
+.topo {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--page);
+  padding: 14px 16px 0;
+}
+.marca { font-weight: 800; letter-spacing: 0.02em; max-width: 640px; margin: 0 auto; }
+.marca span { font-weight: 500; color: var(--ink-2); }
+.progresso { height: 4px; background: var(--grid); border-radius: 4px; max-width: 640px; margin: 10px auto 0; overflow: hidden; }
+#barra { height: 100%; width: 0; background: var(--accent); border-radius: 4px; transition: width 0.25s; }
+
+.wrap { max-width: 640px; margin: 0 auto; padding: 16px 16px 120px; }
+
+h1 { font-size: 26px; line-height: 1.2; margin: 18px 0 10px; }
+h2 { font-size: 20px; margin: 8px 0 4px; }
+.lead { font-size: 18px; color: var(--ink-2); margin: 0 0 18px; }
+.aviso {
+  background: var(--accent-soft); border-radius: var(--radius);
+  padding: 12px 14px; font-size: 14px; color: var(--ink-2); margin: 12px 0;
+}
+.etapa { color: var(--muted); font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 10px; }
+
+.q {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; margin: 14px 0;
+}
+.q > .titulo { font-weight: 650; margin: 0 0 4px; }
+.q > .ajuda { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+.q.erro { border-color: var(--critical); }
+.q .msg-erro { color: var(--critical-ink); font-size: 14px; margin-top: 8px; }
+
+.opcoes { display: grid; gap: 8px; margin-top: 10px; }
+.opt {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 14px; min-height: 48px;
+  border: 1px solid var(--border); border-radius: 12px;
+  cursor: pointer; background: var(--surface);
+}
+.opt:hover { background: var(--surface-2); }
+.opt input { width: 20px; height: 20px; margin: 0; accent-color: var(--accent); flex: none; }
+.opt:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); }
+.opt.desab { opacity: 0.45; cursor: not-allowed; }
+
+.escala { display: grid; grid-template-columns: repeat(11, 1fr); gap: 4px; margin-top: 10px; }
+.escala label {
+  display: grid; place-items: center; min-height: 48px;
+  border: 1px solid var(--border); border-radius: 10px;
+  font-weight: 650; cursor: pointer; background: var(--surface);
+  font-variant-numeric: tabular-nums;
+}
+.escala input { position: absolute; opacity: 0; pointer-events: none; }
+.escala label:has(input:checked) { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.escala-legenda { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); margin-top: 6px; }
+@media (max-width: 420px) {
+  .escala { grid-template-columns: repeat(6, 1fr); }
+}
+
+.matriz .linha { padding: 10px 0; border-top: 1px solid var(--grid); }
+.matriz .linha:first-child { border-top: 0; }
+.matriz .nome { font-weight: 600; margin-bottom: 6px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  display: inline-flex; align-items: center; min-height: 40px; padding: 6px 12px;
+  border: 1px solid var(--border); border-radius: 999px; cursor: pointer; font-size: 14px;
+}
+.chip input { position: absolute; opacity: 0; pointer-events: none; }
+.chip:has(input:checked) { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+
+input[type="text"], input[type="tel"], textarea {
+  width: 100%; padding: 12px 14px; min-height: 48px;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--surface);
+}
+textarea { min-height: 110px; resize: vertical; }
+.campo { margin-top: 10px; }
+.campo label { display: block; font-size: 14px; color: var(--ink-2); margin-bottom: 4px; }
+
+.acoes {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
+  background: color-mix(in srgb, var(--page) 92%, transparent);
+  backdrop-filter: blur(6px);
+  border-top: 1px solid var(--border);
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+}
+.acoes .in { max-width: 640px; margin: 0 auto; display: flex; gap: 10px; justify-content: space-between; }
+.acoes .btn-primary { flex: 1; }
+
+.fim { text-align: center; padding-top: 40px; }
+.fim .check {
+  width: 72px; height: 72px; border-radius: 50%; margin: 0 auto 16px;
+  display: grid; place-items: center; background: var(--good-bg); color: var(--good-ink); font-size: 36px;
+}
+.fila {
+  position: fixed; top: 64px; left: 50%; transform: translateX(-50%);
+  background: var(--warning-bg); color: var(--warning-ink);
+  padding: 6px 14px; border-radius: 999px; font-size: 13px; font-weight: 600; z-index: 6;
+  max-width: calc(100% - 32px); text-align: center;
+}
