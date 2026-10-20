@@ -209,11 +209,10 @@
     const nenhum = A.filter((r) => lista(r.a3).includes(NENHUM)).length;
     const corpo = linhas.map((l, i) => `<tr class="${i < 3 && l.total ? "top" : ""}">
         <td class="pos">${i + 1}</td>
-        <td>${esc(l.texto)}</td>
-        <td style="width:28%"><div class="trilho">
+        <td>${esc(l.texto)}<div class="trilho">
           ${l.semana ? `<div class="seg" style="width:${(l.semana / max) * 100}%;background:var(--series-1)" data-tip="${esc(l.texto)}: ${l.semana} marcaram com problema toda semana"></div>` : ""}
           ${l.outras ? `<div class="seg" style="width:${(l.outras / max) * 100}%;background:var(--series-2)" data-tip="${esc(l.texto)}: ${l.outras} marcaram, frequência menor"></div>` : ""}
-        </div></td>
+        </div><span class="acao-mob">→ ${esc(l.acao)}</span></td>
         <td class="n"><strong>${l.semana}</strong> / ${l.total}</td>
         <td class="acao col-acao">${esc(l.acao)}</td>
       </tr>`).join("");
@@ -222,7 +221,7 @@
       <p class="nota">Ordenado pelo problema mais marcado por quem diz que o problema grave acontece toda semana (A4). O 1º da lista é o primeiro da fila. ${nenhum} cliente(s) marcaram “${NENHUM}”.</p>
       <div class="legenda"><span><i style="background:var(--series-1)"></i>Toda semana</span><span><i style="background:var(--series-2)"></i>Algumas vezes por mês ou uma vez</span></div>
       <div class="tabela-wrap"><table class="ajuste">
-        <thead><tr><th>#</th><th>Problema</th><th></th><th class="n">semana / total</th><th class="col-acao">Ação do plano</th></tr></thead>
+        <thead><tr><th>#</th><th>Problema</th><th class="n">semana<br>/ total</th><th class="col-acao">Ação do plano</th></tr></thead>
         <tbody>${corpo}</tbody></table></div>
     </section>`;
   }
@@ -269,11 +268,11 @@
     const corpo = itens.map(({ p, c, tot }) => `<div class="barra">
         <div class="nome">${esc(p)}</div>
         <div class="trilho">${P.a2.map((k, i) => (c[k] ? `<div class="seg" style="width:${(c[k] / tot) * 100}%;background:${cores[i]}" data-tip="${esc(p)} · ${k}: ${c[k]} (${pct(c[k], tot)}%)"></div>` : "")).join("")}</div>
-        <div class="num">${pct(c[P.a2[2]], tot)}% não funciona · n=${tot}</div>
+        <div class="num"><strong>${pct(c[P.a2[2]], tot)}%</strong> · n=${tot}</div>
       </div>`).join("");
     return `<section class="card s6">
       <h2>Como cada produto está funcionando (A2)</h2>
-      <p class="nota">Ordenado pela parcela com problema. 100% = quem usa o produto.</p>
+      <p class="nota">Ordenado pela parcela com problema. 100% = quem usa o produto; o número à direita é quem diz que não funciona.</p>
       <div class="legenda">${P.a2.map((k, i) => `<span><i style="background:${cores[i]}"></i>${k}</span>`).join("")}</div>
       ${itens.length ? `<div class="barras">${corpo}</div>` : `<p class="vazio">Sem respostas.</p>`}
     </section>`;

@@ -6,6 +6,7 @@
   <title>Painel da pesquisa ICOM</title>
   <meta name="description" content="Respostas da pesquisa de qualidade ICOM: casos críticos, fila de ajuste rápido e comparação entre clientes e ex-clientes.">
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#0a1a33">
   <link rel="stylesheet" href="assets/base.css">
   <link rel="stylesheet" href="assets/dashboard.css">
 </head>
@@ -13,15 +14,19 @@
   <header class="cab">
     <div class="cab-in">
       <div>
-        <h1>Pesquisa de qualidade ICOM</h1>
+        <div class="marca-icom">ICOM <span>painel da pesquisa</span></div>
+        <h1>Pesquisa de qualidade</h1>
         <p class="sub" id="status">Carregando…</p>
       </div>
       <div class="cab-acoes">
+        <a class="btn" href="./">Formulário</a>
         <button class="btn" type="button" id="btnAtualizar">Atualizar</button>
         <button class="btn" type="button" id="btnCsv">Exportar CSV</button>
         <button class="btn" type="button" id="btnTema" aria-label="Alternar tema claro/escuro">◐</button>
       </div>
     </div>
+  </header>
+  <div class="barra-filtros">
     <div class="filtros" id="filtros">
       <label>Evento <select id="fEvento"><option value="">Todos</option></select></label>
       <label>Situação <select id="fCaminho">
@@ -32,7 +37,7 @@
       <label>Função <select id="fFuncao"><option value="">Todas</option></select></label>
       <label>Produto <select id="fProduto"><option value="">Todos</option></select></label>
     </div>
-  </header>
+  </div>
 
   <div id="chave" class="chave" hidden>
     <form id="formChave">

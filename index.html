@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0a1a33">
   <title>Pesquisa ICOM</title>
   <meta name="description" content="Pesquisa de qualidade ICOM — 3 minutos para dizer o que precisamos corrigir primeiro.">
   <link rel="stylesheet" href="assets/base.css">
@@ -11,15 +12,18 @@
 <body>
   <header class="topo">
     <div class="linha-topo">
-      <div class="marca">ICOM <span>· pesquisa de qualidade</span></div>
-      <a class="btn btn-dash" href="dashboard.html">Painel</a>
+      <div class="marca-icom">ICOM <span>pesquisa de qualidade</span></div>
+      <div class="topo-dir">
+        <span id="contador" class="contador" aria-live="polite"></span>
+        <a class="btn-dash" href="dashboard.html">Painel</a>
+      </div>
     </div>
     <div class="progresso" aria-hidden="true"><div id="barra"></div></div>
   </header>
 
   <main id="app" class="wrap" aria-live="polite"></main>
 
-  <div id="fila" class="fila" hidden></div>
+  <div id="fila" class="fila" role="status" hidden></div>
 
   <script src="config.js"></script>
   <script src="assets/pesquisa.js"></script>

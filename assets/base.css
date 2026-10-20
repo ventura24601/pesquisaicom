@@ -1,19 +1,43 @@
+/* Identidade ICOM: azul-marinho, branco e dourado.
+   O dourado é acento (barra de progresso, destaques, botão principal com texto marinho);
+   texto pequeno nunca é dourado sobre branco, para manter o contraste. */
 :root {
   color-scheme: light;
-  --page: #f6f6f3;
-  --surface: #fcfcfb;
-  --surface-2: #f0efec;
-  --ink: #0b0b0b;
-  --ink-2: #52514e;
-  --muted: #898781;
-  --grid: #e1e0d9;
-  --axis: #c3c2b7;
-  --border: rgba(11, 11, 11, 0.1);
-  --accent: #2a78d6;
-  --accent-ink: #ffffff;
-  --accent-soft: #e6effb;
-  --series-1: #2a78d6;
-  --series-2: #eb6834;
+  --navy-950: #061229;
+  --navy-900: #0a1a33;
+  --navy-800: #0f2547;
+  --navy-700: #17335f;
+  --navy-600: #24477d;
+  --gold: #d4a63a;
+  --gold-hi: #e6be5a;
+  --gold-text: #7f5d0f;       /* dourado escuro para texto sobre branco (6:1) */
+
+  --page: #f3f5f9;
+  --surface: #ffffff;
+  --surface-2: #eef1f7;
+  --ink: #0a1a33;
+  --ink-2: #3f4b63;
+  --muted: #5f6a82;
+  --grid: #e1e5ee;
+  --axis: #c3cad8;
+  --border: rgba(10, 26, 51, 0.14);
+  --border-strong: rgba(10, 26, 51, 0.28);
+
+  --accent: var(--navy-800);    /* links, foco, seleção */
+  --accent-soft: #e7ecf6;
+  --cta-bg: var(--gold);        /* botão principal: dourado com texto marinho (8,9:1) */
+  --cta-ink: var(--navy-900);
+  --cta-hover: var(--gold-hi);
+  --sel-bg: #eaf0fa;
+  --sel-border: var(--navy-800);
+  --check-bg: var(--navy-800);
+  --check-ink: #ffffff;
+  --pick-bg: var(--navy-800);   /* nota escolhida na escala */
+  --pick-ink: #ffffff;
+
+  --series-1: #2a5ca8;
+  --series-2: #b5851a;
+
   --good: #0ca30c;
   --warning: #fab219;
   --critical: #d03b3b;
@@ -23,54 +47,74 @@
   --good-bg: #e7f5e7;
   --warning-bg: #fdf3dc;
   --critical-bg: #fbe9e9;
-  --radius: 14px;
+
+  --radius: 16px;
+  --shadow: 0 1px 2px rgba(10, 26, 51, 0.06), 0 4px 16px rgba(10, 26, 51, 0.06);
   --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     color-scheme: dark;
-    --page: #0d0d0d;
-    --surface: #1a1a19;
-    --surface-2: #262624;
-    --ink: #f0efec;
-    --ink-2: #c3c2b7;
-    --muted: #898781;
-    --grid: #2c2c2a;
-    --axis: #383835;
-    --border: rgba(255, 255, 255, 0.1);
-    --accent: #3987e5;
-    --accent-soft: #1a2c44;
-    --series-1: #3987e5;
-    --series-2: #d95926;
-    --good-ink: #0ca30c;
+    --page: #061229;
+    --surface: #0f213d;
+    --surface-2: #16305a;
+    --ink: #f4f6fa;
+    --ink-2: #c5cddd;
+    --muted: #93a0b9;
+    --grid: #1e3558;
+    --axis: #2c4670;
+    --border: rgba(255, 255, 255, 0.12);
+    --border-strong: rgba(255, 255, 255, 0.28);
+    --accent: #e6be5a;
+    --accent-soft: #1a3460;
+    --sel-bg: #1a3460;
+    --sel-border: #e6be5a;
+    --check-bg: #e6be5a;
+    --check-ink: #0a1a33;
+    --pick-bg: #e6be5a;
+    --pick-ink: #0a1a33;
+    --gold-text: #e6be5a;
+    --series-1: #5a8fd8;
+    --series-2: #b88a22;
+    --good-ink: #3fcf3f;
     --warning-ink: #fab219;
-    --critical-ink: #ec6b6b;
-    --good-bg: #13271a;
-    --warning-bg: #2e2510;
-    --critical-bg: #331717;
+    --critical-ink: #f07a7a;
+    --good-bg: #12301f;
+    --warning-bg: #33290f;
+    --critical-bg: #3a1a1f;
+    --shadow: none;
   }
 }
 :root[data-theme="dark"] {
   color-scheme: dark;
-  --page: #0d0d0d;
-  --surface: #1a1a19;
-  --surface-2: #262624;
-  --ink: #f0efec;
-  --ink-2: #c3c2b7;
-  --muted: #898781;
-  --grid: #2c2c2a;
-  --axis: #383835;
-  --border: rgba(255, 255, 255, 0.1);
-  --accent: #3987e5;
-  --accent-soft: #1a2c44;
-  --series-1: #3987e5;
-  --series-2: #d95926;
-  --good-ink: #0ca30c;
+  --page: #061229;
+  --surface: #0f213d;
+  --surface-2: #16305a;
+  --ink: #f4f6fa;
+  --ink-2: #c5cddd;
+  --muted: #93a0b9;
+  --grid: #1e3558;
+  --axis: #2c4670;
+  --border: rgba(255, 255, 255, 0.12);
+  --border-strong: rgba(255, 255, 255, 0.28);
+  --accent: #e6be5a;
+  --accent-soft: #1a3460;
+  --sel-bg: #1a3460;
+  --sel-border: #e6be5a;
+  --check-bg: #e6be5a;
+  --check-ink: #0a1a33;
+  --pick-bg: #e6be5a;
+  --pick-ink: #0a1a33;
+  --gold-text: #e6be5a;
+  --series-1: #5a8fd8;
+  --series-2: #b88a22;
+  --good-ink: #3fcf3f;
   --warning-ink: #fab219;
-  --critical-ink: #ec6b6b;
-  --good-bg: #13271a;
-  --warning-bg: #2e2510;
-  --critical-bg: #331717;
+  --critical-ink: #f07a7a;
+  --good-bg: #12301f;
+  --warning-bg: #33290f;
+  --critical-bg: #3a1a1f;
+  --shadow: none;
 }
 
 * { box-sizing: border-box; }
@@ -89,27 +133,29 @@ a { color: var(--accent); }
 
 .btn {
   appearance: none;
-  border: 1px solid var(--border);
+  border: 1.5px solid var(--border-strong);
   background: var(--surface);
   color: var(--ink);
   border-radius: 999px;
-  padding: 12px 20px;
-  font-weight: 600;
+  padding: 12px 22px;
+  font-weight: 650;
   cursor: pointer;
   min-height: 48px;
+  transition: background 0.15s, transform 0.05s;
 }
 .btn:hover { background: var(--surface-2); }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
-.btn-primary:hover { filter: brightness(1.06); background: var(--accent); }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--cta-bg); border-color: var(--cta-bg); color: var(--cta-ink); }
+.btn-primary:hover { background: var(--cta-hover); border-color: var(--cta-hover); }
 .btn:disabled { opacity: 0.5; cursor: default; }
-.btn:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, label:has(input:focus-visible) {
-  outline: 2px solid var(--accent);
+.btn:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible, label:has(input:focus-visible) {
+  outline: 3px solid var(--accent);
   outline-offset: 2px;
 }
 
 .badge {
   display: inline-flex; align-items: center; gap: 6px;
-  font-size: 13px; font-weight: 600;
+  font-size: 13px; font-weight: 650;
   padding: 3px 10px; border-radius: 999px; white-space: nowrap;
 }
 .badge::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
@@ -119,3 +165,8 @@ a { color: var(--accent); }
 .badge.amarelo::before { background: var(--warning); }
 .badge.verde { background: var(--good-bg); color: var(--good-ink); }
 .badge.verde::before { background: var(--good); }
+
+/* Faixa de marca (cabeçalho marinho, igual nos dois temas) */
+.marca-icom { font-weight: 800; letter-spacing: 0.04em; color: #fff; display: inline-flex; align-items: center; gap: 8px; }
+.marca-icom::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--gold); transform: rotate(45deg); }
+.marca-icom span { font-weight: 500; letter-spacing: 0; color: #c9d3e6; }
