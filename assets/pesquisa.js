@@ -26,6 +26,7 @@
     { id: "ia_atrapalha", texto: "IA atrapalhou quando a equipe estava atendendo o paciente", acao: "IA: modo fora do horário, pausando quando a CRC entra" },
     { id: "leads_regiao", texto: "Leads de fora da minha região", acao: "Black: conferência mensal da região dos leads" },
     { id: "poucos_leads", texto: "Poucos leads, ou leads que não agendam", acao: "Tráfego e Black: revisão mensal de ROI" },
+    { id: "lead_desqualificado", texto: "Leads desqualificados (sem perfil, sem interesse ou contato inválido)", acao: "Tráfego: revisão de segmentação e filtro de qualificação dos leads" },
     { id: "sem_relatorio", texto: "Não sei quanto pago por lead / não recebo relatório", acao: "Tráfego: relatório semanal automático" },
     { id: "sem_aprovacao", texto: "Criativo ou vídeo publicado sem a minha aprovação", acao: "Tráfego: aprovação de criativos pelo cliente" },
     { id: "video_ruim", texto: "Vídeo de IA com qualidade ruim (avatar, boca, voz)", acao: "IA de Vídeo: revisão antes da entrega" },

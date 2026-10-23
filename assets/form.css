@@ -170,13 +170,6 @@ textarea { min-height: 140px; resize: vertical; margin-top: 14px; }
 .fim h1 { font-size: 28px; margin: 0 0 8px; }
 .fim h1:focus { outline: none; }
 .fim .lead { font-size: 17px; color: var(--ink-2); margin: 0 0 12px; }
-.brinde {
-  display: grid; gap: 2px; margin: 22px auto; max-width: 360px;
-  background: var(--navy-900); color: #fff; border-radius: 16px; padding: 18px;
-  border: 2px solid var(--gold);
-}
-.brinde strong { font-size: 18px; color: var(--gold-hi); }
-.brinde span { font-size: 14px; color: #d3dbea; }
 .fim .btn { margin-top: 10px; }
 
 .fila {

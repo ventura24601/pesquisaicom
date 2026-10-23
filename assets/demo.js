@@ -57,7 +57,7 @@
     if (r.modo === "entrevista") r.entrevistador = um(["Ana", "Bruno"]);
     if (cam === "A") {
       const a1 = Math.max(0, Math.min(10, Math.round(7 + (rnd() - 0.55) * 7)));
-      const pesosProb = PROBLEMAS.map((p) => ({ discador_audio: 9, discador_atende: 7, ia_data: 6, ia_fechado: 6, whatsapp: 5, poucos_leads: 8, sem_relatorio: 6, consultor: 4 }[p.id] || 2));
+      const pesosProb = PROBLEMAS.map((p) => ({ discador_audio: 9, discador_atende: 7, ia_data: 6, ia_fechado: 6, whatsapp: 5, poucos_leads: 8, lead_desqualificado: 7, sem_relatorio: 6, consultor: 4 }[p.id] || 2));
       const nProb = a1 >= 9 ? (rnd() < 0.6 ? 0 : 1) : 1 + Math.floor(rnd() * 3);
       const a3 = [];
       for (let k = 0; k < nProb; k++) a3.push(um(PROBLEMAS, pesosProb).texto);

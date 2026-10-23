@@ -111,7 +111,7 @@
         <ul class="fatos">
           <li><strong>3 min</strong><span>de duração</span></li>
           <li><strong>${total}</strong><span>perguntas rápidas</span></li>
-          <li><strong>1 brinde</strong><span>igual para todos</span></li>
+          <li><strong>Anônimo</strong><span>se você preferir</span></li>
         </ul>
         <button class="btn btn-primary btn-grande" type="button" data-acao="comecar">Começar</button>
         <p class="nota-abertura">A maioria das perguntas é de toque único. Você só se identifica no final, se quiser.</p>
@@ -354,9 +354,6 @@
     gravar(FILA_KEY, JSON.stringify(fila));
     barra.style.width = "100%";
     contador.textContent = "Concluído";
-    const brinde = MODO === "qr"
-      ? `<div class="brinde"><strong>Retire o seu brinde</strong><span>Mostre esta tela na mesa da ICOM.</span></div>`
-      : "";
     const retorno = pediuContato(r) && reg.whatsapp
       ? `<p class="lead">${reg.caminho === "B" ? "Vamos te procurar quando a correção estiver pronta." : "A equipe vai te chamar no WhatsApp esta semana."}</p>`
       : "";
@@ -365,7 +362,7 @@
         <div class="check" aria-hidden="true"><svg viewBox="0 0 24 24" width="40" height="40"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
         <h1 tabindex="-1">Obrigado pela franqueza.</h1>
         <p class="lead">Sua resposta vai direto para a equipe que corrige.</p>
-        ${retorno}${brinde}
+        ${retorno}
         <button class="btn ${MODO === "entrevista" ? "btn-primary" : ""}" type="button" data-acao="nova">${MODO === "entrevista" ? "Nova entrevista" : "Outra pessoa vai responder"}</button>
       </div>`;
     topo();
